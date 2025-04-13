@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <!-- সমস্ত স্টাইল এবং মেটা ট্যাগ পূর্বের মতো থাকবে -->
+</head>
+<body>
+  <!-- বাকি সমস্ত কন্টেন্ট একই থাকবে -->
+
+  <footer>
+    Made By: <strong>TalHa RaHman</strong> | 
+    <a href="https://t.me/talha_rahman" target="_blank" rel="noopener noreferrer">
+      📩 Telegram এ কানেক্ট করুন 
+      <span style="font-size:11px; color:#e94560;">(@talha_rahman)</span>
+    </a>
+  </footer>
+
+  <!-- স্ক্রিপ্ট অংশ পূর্বের মতো থাকবে -->
+</body>
+</html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>নাম্বার কপি টুল</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 15px;
+      max-width: 800px;
+      margin: auto;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content {
+      flex-grow: 1;
+    }
+
+    h2 {
+      color: #e94560;
+      text-align: center;
+      margin: 15px 0;
+      font-size: 24px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 15px;
+      padding: 12px;
+      border: 2px solid #00b894;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #e94560;
+      box-shadow: 0 0 12px rgba(233,69,96,0.3);
+    }
+
+    #currentNumber {
+      font-size: 24px;
+      margin: 15px 0;
+      padding: 15px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 15px 0;
+    }
+
+    button {
+      padding: 18px 35px;
+      font-size: 18px;
+      background: linear-gradient(45deg, #e94560 0%, #ff6b6b 100%);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(233,69,96,0.4);
+    }
+
+    button:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 4px;
+      margin: 15px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #e94560 0%, #ff6b6b 100%);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .stats-panel {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .stat-box {
+      background: rgba(0,184,148,0.1);
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      border: 1px solid #00b894;
+    }
+
+    .stat-number {
+      font-size: 24px;
+      color: #55efc4;
+      font-weight: bold;
+    }
+
+    .history-box {
+      background: rgba(30,30,30,0.4);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 15px;
+      max-height: 120px;
+      overflow-y: auto;
+      border: 1px solid #e94560;
+    }
+
+    .history-item {
+      padding: 8px;
+      margin: 5px 0;
+      background: rgba(233,69,96,0.15);
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffb8c6;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 10px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    footer a {
+      color: #e94560;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #ff6b6b !important;
+      text-decoration: underline !important;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(233,69,96,0.4); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(233,69,96,0); }
+      100% { transform: scale(1); }
+    }
+
+    .highlight {
+      animation: pulse 1.5s infinite;
+      background: linear-gradient(45deg, #e94560, #ff6b6b);
+      color: white !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h2>📱 নাম্বার ইনপুট করুন</h2>
+    <textarea id="inputBox" placeholder="উদাহরণ: 01711111111, 01822222222\n01933333333"></textarea>
+    
+    <div class="button-container">
+      <button onclick="start()" style="background: linear-gradient(45deg, #00b894 0%, #55efc4 100%)">শুরু করুন 🚀</button>
+    </div>
+
+    <div class="progress-container" style="display:none;">
+      <div class="progress-bar" style="width: 0%"></div>
+    </div>
+
+    <div id="currentNumber" style="display:none;"></div>
+    
+    <div class="button-container">
+      <button id="copyButton" style="display:none;" onclick="copyNumber()">কপি করুন <span class="checkmark">✅</span></button>
+    </div>
+
+    <div class="stats-panel" style="display:none;">
+      <div class="stat-box">
+        <div class="stat-number" id="totalNumbers">0</div>
+        <div class="stat-label">মোট নাম্বার</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="remainingNumbers">0</div>
+        <div class="stat-label">বাকি নাম্বার</div>
+      </div>
+    </div>
+
+    <div class="history-box" style="display:none;">
+      <div id="historyList"></div>
+    </div>
+  </div>
+
+  <footer>
+    তৈরিতে: তালহা রহমান | 
+    <a href="https://t.me/talha_rahman" target="_blank" rel="noopener noreferrer">
+      Telegram এ যোগাযোগ করুন ✈️
+      <span style="font-size:11px;">(@talha_rahman)</span>
+    </a>
+  </footer>
+
+  <script>
+    let numbers = [];
+    let currentIndex = 0;
+
+    function start() {
+      const input = document.getElementById("inputBox").value;
+      numbers = input.split(/[\n, ]+/).filter(num => num.trim() !== '');
+      currentIndex = 0;
+      
+      if (numbers.length > 0) {
+        document.getElementById("inputBox").style.display = "none";
+        document.querySelector(".button-container").style.display = "none";
+        document.querySelector(".progress-container").style.display = "block";
+        document.querySelector(".stats-panel").style.display = "grid";
+        document.querySelector(".history-box").style.display = "block";
+        document.getElementById("currentNumber").style.display = "block";
+        document.getElementById("copyButton").style.display = "inline-block";
+        
+        document.getElementById('totalNumbers').textContent = numbers.length;
+        updateProgress();
+        showNextNumber();
+      }
+    }
+
+    function showNextNumber() {
+      const currentNumberElem = document.getElementById("currentNumber");
+      if (currentIndex < numbers.length) {
+        currentNumberElem.textContent = numbers[currentIndex];
+        currentNumberElem.classList.add('highlight');
+      } else {
+        currentNumberElem.textContent = "সব নাম্বার কপি সম্পন্ন ✅";
+        document.getElementById("copyButton").style.display = "none";
+      }
+    }
+
+    function copyNumber() {
+      if (currentIndex < numbers.length) {
+        const currentNumberElem = document.getElementById("currentNumber");
+        navigator.clipboard.writeText(numbers[currentIndex]).then(() => {
+          currentNumberElem.classList.remove('highlight');
+          currentNumberElem.style.background = "#00b894";
+          setTimeout(() => {
+            currentNumberElem.style.background = "rgba(255,255,255,0.1)";
+          }, 300);
+          
+          currentIndex++;
+          updateProgress();
+          addToHistory(numbers[currentIndex-1]);
+          showNextNumber();
+        });
+      }
+    }
+
+    function updateProgress() {
+      const progress = (currentIndex / numbers.length) * 100;
+      document.querySelector('.progress-bar').style.width = `${progress}%`;
+      document.getElementById('remainingNumbers').textContent = numbers.length - currentIndex;
+    }
+
+    function addToHistory(number) {
+      const historyList = document.getElementById("historyList");
+      const historyItem = document.createElement('div');
+      historyItem.className = 'history-item';
+      historyItem.innerHTML = `
+        <span>${number}</span>
+        <small>${new Date().toLocaleTimeString()}</small>
+      `;
+      historyList.prepend(historyItem);
+    }
+  </script>
+</body>
+</html>
